@@ -1,0 +1,65 @@
+services:
+
+  # RocketMQ Name Server
+  rocketmq-namesrv:
+    image: apache/rocketmq:latest
+    container_name: rocketmq-namesrv
+    ports:
+      - "9876:9876"
+    environment:
+      - JAVA_OPT_EXT=-server -Xms512m -Xmx512m -Xmn256m
+    command: sh mqnamesrv
+    networks:
+      - rocketmq_network
+
+  # RocketMQ Broker
+  rocketmq-broker:
+    image: apache/rocketmq:latest
+    container_name: rocketmq-broker
+    ports:
+      - "10911:10911"
+      - "10909:10909"
+    environment:
+      - NAMESRV_ADDR=rocketmq-namesrv:9876
+      - JAVA_OPT_EXT=-server -Xms512m -Xmx512m -Xmn256m
+    volumes:
+      - ./data:/home/rocketmq/data
+      - ./logs:/home/rocketmq/logs
+     # - ./conf/RocketMQ/broker.conf:/etc/rocketmq/broker.conf
+    depends_on:
+      - rocketmq-namesrv
+    command: sh mqbroker -n rocketmq-namesrv:9876
+    networks:
+      - rocketmq_network
+    # command: sh mqbroker -n rocketmq-namesrv:9876 -c /etc/rocketmq/broker.conf
+
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpassword"  # Set MySQL root password
+      MYSQL_DATABASE: "orderingsystem"  # Create a default database
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persist MySQL data
+    networks:
+      - rocketmq_network
+
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - rocketmq_network
+
+volumes:
+  redis-data:
+  mysql-data:
+
+networks:
+  rocketmq_network:
+    driver: bridge
