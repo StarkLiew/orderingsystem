@@ -31,10 +31,6 @@ The anatomy of an endpoint should look like this:
 | `POST` | /orders/create?[userId]&[productCode]&[quantity] |
 
 
-## Issue
-1. Have timeout issue with RocketMQ broker network when run on docker environment.
-
-
 ## License
 
 This project is licensed under the MIT License.

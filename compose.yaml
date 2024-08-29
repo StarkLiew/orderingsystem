@@ -25,13 +25,12 @@ services:
     volumes:
       - ./data:/home/rocketmq/data
       - ./logs:/home/rocketmq/logs
-     # - ./conf/RocketMQ/broker.conf:/etc/rocketmq/broker.conf
+      - ./conf/rocketmq/broker.conf:/etc/rocketmq/broker.conf
     depends_on:
       - rocketmq-namesrv
-    command: sh mqbroker -n rocketmq-namesrv:9876
+    command: sh mqbroker -c /etc/rocketmq/broker.conf
     networks:
       - rocketmq_network
-    # command: sh mqbroker -n rocketmq-namesrv:9876 -c /etc/rocketmq/broker.conf
 
   mysql:
     image: 'mysql:latest'

@@ -22,7 +22,7 @@ public class OrderScheduler {
         this.rocketMQService = rocketMQService;
     }
 
-    @Scheduled(fixedRate = 1800000) // Every 30 minutes
+    @Scheduled(fixedRate = 60000) // Check every 1 minutes
     public void autoClosePendingOrders() {
         List<Order> pendingOrders = orderService.findPendingOrdersOlderThan30Minutes();
         for (Order order : pendingOrders) {
