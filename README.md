@@ -16,14 +16,15 @@ Before installing the Ordering System, ensure the following:
 ```bash
 docker-compose up -d
 ```
-3. Run the application:
+3. Import database/orderingsystem.sql to MySQL
+4. Run the application:
 
 ```bash
 mvn spring-boot:run
 ```
 ## Endpoints
-### Anatomy of an endpoint
-The anatomy of an endpoint should look like this:
+
+The available endpoints:
 
 | Method | Endpoint                                         |
 |--------|--------------------------------------------------|
