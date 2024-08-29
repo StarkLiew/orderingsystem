@@ -16,7 +16,7 @@ Before installing the Ordering System, ensure the following:
 ```bash
 docker-compose up -d
 ```
-3. Import database/orderingsystem.sql to MySQL
+3. Dump database/sample.sql to MySQL
 4. Run the application:
 
 ```bash
