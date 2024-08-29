@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,8 +58,8 @@ public class OrderService {
                 order.setAmount(BigDecimal.valueOf(100)); // Assume fixed price for simplicity
                 order.setTotalAmount(order.getAmount().multiply(BigDecimal.valueOf(quantity)));
                 order.setOrderStatus("pending");
-                order.setCreatedAt(LocalDateTime.now());
-                order.setUpdatedAt(LocalDateTime.now());
+                order.setCreatedAt(LocalDateTime.now(ZoneOffset.UTC));
+                order.setUpdatedAt(LocalDateTime.now(ZoneOffset.UTC));
 
                 orderRepository.insertOrder(order);
                 rocketMQService.sendOrderCreatedMessage(order);
